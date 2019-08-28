@@ -11,7 +11,7 @@ class Window(Frame):
 
         Frame.__init__(self, master)
         self.master = master
-        self.pack(side="right", fill=BOTH, expand="yes")
+        self.pack(side="top", fill=BOTH, expand="yes")
         load = Image.open("logo.png")
         render = ImageTk.PhotoImage(load)
         img = Label(self, image=render)
@@ -22,49 +22,66 @@ class Window(Frame):
 
 
 
-        #Label frame for information
-        self.labelFrame = ttk.LabelFrame(self, text = 'Welcome to my bot!')
-        self.labelFrame.pack(side = 'bottom', fill = BOTH, expand = 'yes')
-        self.User()
-        self.Password()
-        self.Channel()
+
+        #Frame calls
+        self.labelFrame = ttk.LabelFrame(self, text = 'Welcome! ')
+        self.labelFrame.pack( fill = BOTH, expand = 'yes')
+        self.Bottom_Window()
+        self.Bottom_Window.User(self)
+        self.Bottom_Window.Password(self)
+        self.Bottom_Window.Channel(self)
+        self.Bottom_Window.Buttons(self)
 
 
 
 
-    def User (self):
-
-        username= tk.Label(self.labelFrame, text = "Twitch username: ", anchor = "w")
-        username.pack(side = 'top', fill = X, expand = 'yes')
-        entry_username = Entry(self.labelFrame, bd = 3)
-        entry_username.pack(side ='top', fill = X, expand = 'yes')
-
-    def Password(self):
-
-        def Callback(event):
-            webbrowser.open_new(("https://twitchapps.com/tmi/"))
-
-
-        pass_ouath = tk.Label(self.labelFrame, text = "Authorization password: ",  fg="blue", cursor="hand2", anchor = "w")
-        pass_ouath.pack(side = "top", fill = X, expand ="yes")
-        pass_ouath.bind("<Button-1>", Callback)
-        entry_pass_ouath = Entry(self.labelFrame, bd=3)
-        entry_pass_ouath.pack( side = 'top' , fill=X, expand='yes')
-
-
-    def Channel (self):
-
-        channel_interval = tk.Label(self.labelFrame, text = "Twitch URL Channel: ", anchor = "w")
-        channel_interval.pack(side = 'top', fill = X, expand = 'no')
-        entry_channel_interval = Entry(self.labelFrame, bd=3)
-        entry_channel_interval.pack(side='bottom', fill=X, expand='yes')
-        entry_channel_interval.insert(0, "Example: https://www.twitch.tv/example")
 
 
 
-#class BottomWindow(Botframe):
+    class Bottom_Window():
 
-    #def __init__(self):
+
+
+        def __init__(self):
+            pass
+
+        def User (self):
+
+            username= tk.Label(self.labelFrame, text = "Twitch username: ", anchor = "w")
+            username.pack(fill = X, expand = 'yes')
+            entry_username = Entry(self.labelFrame, bd = 3)
+            entry_username.pack(fill = X, expand = 'yes')
+
+        def Password(self):
+
+            def Callback(event):
+                webbrowser.open_new(("https://twitchapps.com/tmi/"))
+
+
+            pass_ouath = tk.Label(self.labelFrame, text = "Authorization password: ",  fg="blue", cursor="hand2", anchor = "w")
+            pass_ouath.pack(fill = X, expand ="yes")
+            pass_ouath.bind("<Button-1>", Callback)
+            entry_pass_ouath = Entry(self.labelFrame, bd=3)
+            entry_pass_ouath.pack( fill=X, expand='yes')
+
+
+        def Channel (self):
+
+            channel_interval = tk.Label(self.labelFrame, text = "Twitch URL Channel: ", anchor = "w")
+            channel_interval.pack(fill = X, expand = 'no')
+            entry_channel_interval = Entry(self.labelFrame, bd=3)
+            entry_channel_interval.pack( fill=X, expand='yes')
+            entry_channel_interval.insert(0, "Example: https://www.twitch.tv/example")
+
+        def Buttons (self):
+            back_button = Button(text = "Back")
+            back_button.pack(side = 'left', fill= X, expand = True)
+            next_button = Button(text = "Next", command = lambda: )
+            next_button.pack(side = "right", fill = X, expand = True)
+
+
+
+
 
 
 root = Tk()
