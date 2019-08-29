@@ -7,6 +7,7 @@ import webbrowser
 
 class Window(Frame):
 
+
     def __init__(self, master):
 
         Frame.__init__(self, master)
@@ -15,17 +16,12 @@ class Window(Frame):
         load = Image.open("logo.png")
         render = ImageTk.PhotoImage(load)
         img = Label(self, image=render)
-        img = Button(self, image = render, text = "Click me to start!", compound = TOP, bd = 0, cursor="hand2")
+        img = Button(self, image=render, text="When finished, click me to begin!", compound=TOP, bd=0, cursor="hand2")
         img.image = render
-        img.pack(side = TOP, fill = BOTH)
+        img.pack(side=TOP, fill=BOTH)
         root.resizable(width=False, height=False)
-
-
-
-
-        #Frame calls
-        self.labelFrame = ttk.LabelFrame(self, text = 'Welcome! ')
-        self.labelFrame.pack( fill = BOTH, expand = 'yes')
+        self.labelFrame = ttk.LabelFrame(self, text='Welcome! ')
+        #self.labelFrame.pack(side="bottom", fill=BOTH, expand='yes')
         self.Bottom_Window()
         self.Bottom_Window.User(self)
         self.Bottom_Window.Password(self)
@@ -38,12 +34,28 @@ class Window(Frame):
 
 
 
-    class Bottom_Window():
+    class Bottom_Window(Frame):
 
 
 
         def __init__(self):
             pass
+
+
+
+        def Buttons(self):
+            def Back_Callback():
+                self.labelFrame.pack(side="bottom", fill=BOTH, expand='yes')
+
+            back_button = Button(text="Back", command = Back_Callback)
+            back_button.pack(side='left', fill=X, expand=True)
+
+            def Next_Callback():
+                self.labelFrame.pack_forget()
+            next_button = Button(text="Next", command=Next_Callback)
+            next_button.pack(side="right", fill=X, expand=True)
+
+
 
         def User (self):
 
@@ -71,16 +83,12 @@ class Window(Frame):
             channel_interval.pack(fill = X, expand = 'no')
             entry_channel_interval = Entry(self.labelFrame, bd=3)
             entry_channel_interval.pack( fill=X, expand='yes')
-            entry_channel_interval.insert(0, "Example: https://www.twitch.tv/example")
-
-        def Buttons (self):
-            back_button = Button(text = "Back")
-            back_button.pack(side = 'left', fill= X, expand = True)
-            next_button = Button(text = "Next", command = lambda: )
-            next_button.pack(side = "right", fill = X, expand = True)
+            entry_channel_interval.insert(0, "https://www.twitch.tv/example")
 
 
 
+
+        #need to add functions to pack_forget() the widget containing the functions.
 
 
 
