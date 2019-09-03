@@ -24,6 +24,8 @@ from PIL import Image, ImageTk
 
 
 
+
+
 #--------------------------Omegalul-----------------------------
 
 HOST = "irc.chat.twitch.tv"

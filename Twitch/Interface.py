@@ -7,7 +7,6 @@ import webbrowser
 
 class Window(Frame):
 
-
     def __init__(self, master):
 
         Frame.__init__(self, master)
@@ -21,39 +20,73 @@ class Window(Frame):
         img.pack(side=TOP, fill=BOTH)
         root.resizable(width=False, height=False)
         self.labelFrame = ttk.LabelFrame(self, text='Welcome! ')
-        #self.labelFrame.pack(side="bottom", fill=BOTH, expand='yes')
-        self.Bottom_Window()
+        self.labelFrame.pack(side="bottom", fill=BOTH, expand='yes')
+
+
+        self.Bottom_Window.Buttons(self)
         self.Bottom_Window.User(self)
         self.Bottom_Window.Password(self)
         self.Bottom_Window.Channel(self)
-        self.Bottom_Window.Buttons(self)
-
-
-
-
-
+        self.Bottom_Window(self)
+        #self.Bottom_Window.Text_Area(self)
 
 
     class Bottom_Window(Frame):
 
 
 
-        def __init__(self):
-            pass
+        def __init__(self, Window):
+            Frame.__init__(self)
+
+            self.pack(side="bottom", fill = BOTH, expand = 'yes')
+            #self.pack_forget()
+            self.labelBottomFrame = ttk.LabelFrame(self, text = 'testing123')
+            self.labelBottomFrame.pack (side = 'bottom', fill = BOTH, expand ='yes')
+
+            #self.labelBottomFrame.pack_forget()
+
+
+
 
 
 
         def Buttons(self):
+
+
             def Back_Callback():
                 self.labelFrame.pack(side="bottom", fill=BOTH, expand='yes')
+                Message(self).pack_forget()
+
 
             back_button = Button(text="Back", command = Back_Callback)
             back_button.pack(side='left', fill=X, expand=True)
 
+
             def Next_Callback():
                 self.labelFrame.pack_forget()
-            next_button = Button(text="Next", command=Next_Callback)
+                Message(self)
+                message_area.pack()
+                message.pack(fill=X, expand='yes')
+
+
+            next_button = Button(text="Next", command= Next_Callback)
             next_button.pack(side="right", fill=X, expand=True)
+
+
+
+            def Message (self):
+
+                message = tk.Label(self.labelFrame, text ="here goes text", anchor = "w")
+                message.pack(fill = X, expand = 'yes')
+                message_area = Text(height = 12)
+                message_area.pack()
+
+
+
+
+
+
+
 
 
 
@@ -85,10 +118,22 @@ class Window(Frame):
             entry_channel_interval.pack( fill=X, expand='yes')
             entry_channel_interval.insert(0, "https://www.twitch.tv/example")
 
+        class Second_Window():
+
+            def __init__(self):
+
+                pass
+
+            def Text(self):
+                pass
 
 
 
         #need to add functions to pack_forget() the widget containing the functions.
+
+
+
+
 
 
 
