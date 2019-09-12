@@ -60,15 +60,6 @@ class TwitchBot(tk.Tk):
 
 
 
-    # Trying to create a method that will return the values in the different classes when called, to be returned when called later.
-
-    def get_function(self):
-        one = entry_username.get()
-        two =  entry_pass_ouath.get()
-        three = entry_channel_interval.get()
-        print(one, two, three)
-
-
     #def fprint(self, name, password, channel):
 
 
@@ -93,10 +84,10 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        username = tk.Label(self, text="Twitch username: ", anchor="w")
-        username.pack(fill='x', expand='yes')
-        entry_username = tk.Entry(self, bd=3)
-        entry_username.pack(fill='x', expand='yes')
+        self.username = tk.Label(self, text="Twitch username: ", anchor="w")
+        self.username.pack(fill='x', expand='yes')
+        self.entry_username = tk.Entry(self, bd=3)
+        self.entry_username.pack(fill='x', expand='yes')
 
 
 
@@ -108,34 +99,38 @@ class StartPage(tk.Frame):
         def Callback(event):
             webbrowser.open_new(("https://twitchapps.com/tmi/"))
 
-        pass_ouath = tk.Label(self, text="Generate authorization password: ", fg="blue", cursor="hand2", anchor="w")
-        pass_ouath.pack(fill='x', expand="yes")
-        pass_ouath.bind("<Button-1>", Callback)
-        entry_pass_ouath = tk.Entry(self, bd=3)
-        entry_pass_ouath.pack(fill='x', expand='yes')
+        self.pass_ouath = tk.Label(self, text="Generate authorization password: ", fg="blue", cursor="hand2", anchor="w")
+        self.pass_ouath.pack(fill='x', expand="yes")
+        self.pass_ouath.bind("<Button-1>", Callback)
+        self.entry_pass_ouath = tk.Entry(self, bd=3)
+        self.entry_pass_ouath.pack(fill='x', expand='yes')
 
 
-        channel_interval = tk.Label(self, text="Twitch URL Channel: ", anchor="w")
-        channel_interval.pack(fill='x', expand='no')
-        entry_channel_interval = tk.Entry(self, bd=3)
-        entry_channel_interval.pack(fill='x', expand='yes')
-        entry_channel_interval.insert(0, "https://www.twitch.tv/example")
+        self.channel_interval = tk.Label(self, text="Twitch URL Channel: ", anchor="w")
+        self.channel_interval.pack(fill='x', expand='no')
+        self.entry_channel_interval = tk.Entry(self, bd=3)
+        self.entry_channel_interval.pack(fill='x', expand='yes')
+        self.entry_channel_interval.insert(0, "https://www.twitch.tv/example")
 
 
 
 
-        button = tk.Button(self, text ='Next', command = lambda: controller.show_frame(PageOne), cursor="hand2")
-        button.pack(side = 'bottom', fill = 'x', expand = True)
+        self.button = tk.Button(self, text ='Next', command = lambda: controller.show_frame(PageOne), cursor="hand2")
+        self.button.pack(side = 'bottom', fill = 'x', expand = True)
 
-        button2 = tk.Button(self, text='print', command = lambda: controller.fprint(entry_username.get()), cursor ='hand2')
-        button2.pack(side ='right', fill= 'x', expand = True)
+        self.button2 = tk.Button(self, text='test', command= lambda: self.get_function(), cursor="hand2")
+        self.button2.pack(side='bottom', fill='x', expand=True)
 
-        def get_function():
 
-            entry_username_get = entry_username.get()
-            entry_pass_ouath_get = entry_pass_ouath.get()
-            entry_channel_interval_get = entry_channel_interval.get()
-            print(entry_username_get, entry_pass_ouath_get, entry_channel_interval_get)
+
+    def get_function(self):
+
+        one = self.entry_username.get()
+        two =  self.entry_pass_ouath.get()
+        three = self.entry_channel_interval.get()
+        print(one, two, three)
+
+
 
 
 
@@ -146,20 +141,25 @@ class PageOne(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        message_area = tk.Text(self, width = 10,  height = 10, highlightthickness = 1, fg = 'grey')
-        message_area.pack(side='top', fill = 'both', expand = 'yes')
-        message_area.insert('0.0', 'Insert message here, 500 characters max...')
+        self.message_area = tk.Text(self, width = 10,  height = 10, highlightthickness = 1, fg = 'grey')
+        self.message_area.pack(side='top', fill = 'both', expand = 'yes')
+        self.message_area.insert('0.0', 'Insert message here, 500 characters max...')
 
         #make text entry box delete on command and change from grey to black
-        message_area.bind('<FocusIn>', lambda x: message_area.delete('0.0', tk.END))
+        self.message_area.bind('<FocusIn>', lambda x: self.message_area.delete('0.0', tk.END))
 
-        back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
-        back_button.pack(side='left', fill = 'x', expand = True)
+        self.back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
+        self.back_button.pack(side='left', fill = 'x', expand = True)
 
-        button = tk.Button(self, text='Next', command=lambda: controller.show_frame(PageTwo), cursor="hand2")
-        button.pack(side = 'right', fill = 'x', expand = True)
+        self.button = tk.Button(self, text='Next', command=lambda: controller.show_frame(PageTwo), cursor="hand2")
+        self.button.pack(side = 'right', fill = 'x', expand = True)
 
 
+
+    def get_PageOne(self):
+        content = self.message_area.get('1.0', tk.END)
+        print(content)
+        print('testing')
 
 
 
@@ -170,26 +170,27 @@ class PageTwo(StartPage, tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        interval = tk.Label(self, text = 'Alloted interval (seconds): ', anchor ='w')
-        interval.pack(side = 'top')
-        interval_menu = ttk.Combobox(self, values=[
+        self.interval = tk.Label(self, text = 'Alloted interval (seconds): ', anchor ='w')
+        self.interval.pack(side = 'top')
+        self.interval_menu = ttk.Combobox(self, values=[
                                     "3",
                                     "10",
                                     "30",
                                     "60"])
-        interval_menu.pack(side = 'top')
+        self.interval_menu.pack(side = 'top')
 
-        emote = tk.Label(self, text ='Enable random emotes?: ', anchor = 'w')
-        emote.pack(side='top', pady = 10)
-        yes_box = tk.Checkbutton(self, text ='Yes')
-        yes_box.pack(fill = 'y', pady = 5 )
-        no_box = tk.Checkbutton(self, text = "No")
-        no_box.pack(fill = 'y')
+        self.emote = tk.Label(self, text ='Enable random emotes?: ', anchor = 'w')
+        self.emote.pack(side='top', pady = 10)
+        self.yes_box = tk.Checkbutton(self, text ='Yes')
+        self.yes_box.pack(fill = 'y', pady = 5 )
+        self.no_box = tk.Checkbutton(self, text = "No")
+        self.no_box.pack(fill = 'y')
 
 
-        button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
-        button.pack(side = 'bottom' , fill='x', expand=True)
+        self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
+        self.button.pack(side = 'bottom' , fill='x', expand=True)
 
+    #def get_PageTwo(self):
 
 
 
@@ -265,9 +266,11 @@ app = TwitchBot()
 app.geometry('400x560')
 app.resizable(height = False, width = False)
 app.mainloop()
-okay = TwitchBot()
-okay.get_function()
 
+y = StartPage(parent = None, controller = None)
+y.get_function()
+x = PageOne(parent = None, controller= None)
+x.get_PageOne()
 
 b = Omegalul()
 
