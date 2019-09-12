@@ -26,17 +26,20 @@ from PIL import Image, ImageTk
 
 
 
+
+
+
 #--------------------------Omegalul-----------------------------
 
 HOST = "irc.chat.twitch.tv"
 
 PORT = 6667
 
-NICK = #Users twitch password
+NICK = "darksouls3twitch"
 
-PASS = #recieve pass from link
+PASS = "oauth:fdgg9nwgxnaseqgnyxe8kjnefe0fmq"
 
-CHAN = #URL of the chat irc
+CHAN = "#druezy"
 
 s = socket.socket()
 
@@ -88,22 +91,20 @@ class Omegalul():
     def Repeat(self):
         threading.Timer(3.0, b.Test, args=()).start()
 
-
-#class Container():
-
-    #def __init__(self):
-       # pass
-
-    #def Box(self, Text):
-
-
 b = Omegalul()
 
 b.Test()
 
-while True:
-    b.Repeat()
-    time.sleep(3.0)
+def Run(self):
+
+    while True:
+        b.Repeat()
+        time.sleep(3.0)
+
+
+if __name__ == '__twitch__':
+
+    Run()
 
 
 
