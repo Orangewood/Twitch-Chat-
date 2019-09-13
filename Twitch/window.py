@@ -28,7 +28,7 @@ class TwitchBot(tk.Tk):
         render = ImageTk.PhotoImage(load)
         img = tk.Label(self, image=render)
         img = tk.Button(self, image=render, text="When finished, click me to begin!", compound="top", bd=0,
-                        cursor="hand2", command = lambda: print('test'))
+                        cursor="hand2", command = lambda: print(StartPage.login_list, PageOne.message_list, PageTwo.interval_list))
         img.image = render
         img.pack(side="top", fill='both')
 
@@ -77,6 +77,7 @@ class TwitchBot(tk.Tk):
 
 class StartPage(tk.Frame):
 
+    login_list = []
 
 
     def __init__(self, parent, controller):
@@ -115,7 +116,7 @@ class StartPage(tk.Frame):
 
 
 
-        self.button = tk.Button(self, text ='Next', command = lambda: controller.show_frame(PageOne), cursor="hand2")
+        self.button = tk.Button(self, text ='Next', command = lambda: [controller.show_frame(PageOne), self.get_function()], cursor="hand2")
         self.button.pack(side = 'bottom', fill = 'x', expand = True)
 
         self.button2 = tk.Button(self, text='test', command= lambda: self.get_function(), cursor="hand2")
@@ -125,16 +126,29 @@ class StartPage(tk.Frame):
 
     def get_function(self):
 
+        counter = 0
+
         one = self.entry_username.get()
         two =  self.entry_pass_ouath.get()
         three = self.entry_channel_interval.get()
         print(one, two, three)
+
+        if counter == 0:
+
+            for entry in (one, two, three):
+                self.login_list.append(entry)
+            counter +=1
+        print(counter)
+
+
 
 
 
 
 
 class PageOne(tk.Frame):
+
+    message_list = []
 
     def __init__(self, parent, controller):
 
@@ -151,7 +165,7 @@ class PageOne(tk.Frame):
         self.back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
         self.back_button.pack(side='left', fill = 'x', expand = True)
 
-        self.button = tk.Button(self, text='Next', command=lambda: controller.show_frame(PageTwo), cursor="hand2")
+        self.button = tk.Button(self, text='Next', command=lambda: [controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
         self.button.pack(side = 'right', fill = 'x', expand = True)
 
 
@@ -159,11 +173,14 @@ class PageOne(tk.Frame):
     def get_PageOne(self):
         content = self.message_area.get('1.0', tk.END)
         print(content)
+        self.message_list.append(content)
         print('testing')
 
 
 
 class PageTwo(StartPage, tk.Frame):
+
+    interval_list = []
 
     def __init__(self, parent, controller):
 
@@ -190,35 +207,43 @@ class PageTwo(StartPage, tk.Frame):
         self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
         self.button.pack(side = 'bottom' , fill='x', expand=True)
 
-    #def get_PageTwo(self):
+    def get_PageTwo(self):
+
+        interval_value = self.interval_menu.get()
+        self.interval_list.append(interval_value)
+
+        if self.yes_box is True:
+            pass
 
 
 
 
 #--------------------------Omegalul-----------------------------
 
-HOST = "irc.chat.twitch.tv"
 
-PORT = 6667
-
-NICK = "darksouls3twitch"
-
-PASS = "oauth:fdgg9nwgxnaseqgnyxe8kjnefe0fmq"
-
-CHAN = "#druezy"
-
-s = socket.socket()
-
-s.connect((HOST, PORT))
-
-s.send("PASS {}\r\n".format(PASS).encode("utf-8"))
-
-s.send("NICK {}\r\n".format(NICK).encode("utf-8"))
-
-s.send("JOIN {}\r\n".format(CHAN).encode("utf-8"))
 
 
 class Omegalul():
+
+    HOST = "irc.chat.twitch.tv"
+
+    PORT = 6667
+
+    NICK = "darksouls3twitch"
+
+    PASS = "oauth:fdgg9nwgxnaseqgnyxe8kjnefe0fmq"
+
+    CHAN = "#druezy"
+
+    s = socket.socket()
+
+    s.connect((HOST, PORT))
+
+    s.send("PASS {}\r\n".format(PASS).encode("utf-8"))
+
+    s.send("NICK {}\r\n".format(NICK).encode("utf-8"))
+
+    s.send("JOIN {}\r\n".format(CHAN).encode("utf-8"))
 
     def __init__(self):
         pass
@@ -251,7 +276,7 @@ class Omegalul():
 
     def Test(self):
         global a
-        a = s.send("PRIVMSG {} :{}\r\n".format(CHAN, self.Text()).encode("utf-8"))
+        a = self.s.send("PRIVMSG {} :{}\r\n".format(self.CHAN, self.Text()).encode("utf-8"))
         return a
 
     def Repeat(self):
