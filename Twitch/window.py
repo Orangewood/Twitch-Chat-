@@ -2,11 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import webbrowser
-
-#import twtichbot as twitch
-
-
-
 import random
 import socket
 import threading
@@ -60,19 +55,6 @@ class TwitchBot(tk.Tk):
 
 
 
-    #def fprint(self, name, password, channel):
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class StartPage(tk.Frame):
@@ -81,6 +63,8 @@ class StartPage(tk.Frame):
 
 
     def __init__(self, parent, controller):
+
+        self.counter = 0
 
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -126,19 +110,19 @@ class StartPage(tk.Frame):
 
     def get_function(self):
 
-        counter = 0
+
 
         one = self.entry_username.get()
         two =  self.entry_pass_ouath.get()
         three = self.entry_channel_interval.get()
         print(one, two, three)
 
-        if counter == 0:
+        if self.counter == 0:
 
             for entry in (one, two, three):
                 self.login_list.append(entry)
-            counter +=1
-        print(counter)
+            self.counter +=1
+        #print(self.counter)
 
 
 
@@ -150,7 +134,10 @@ class PageOne(tk.Frame):
 
     message_list = []
 
+
     def __init__(self, parent, controller):
+
+        self.counter2 = 0
 
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -171,10 +158,14 @@ class PageOne(tk.Frame):
 
 
     def get_PageOne(self):
+
         content = self.message_area.get('1.0', tk.END)
-        print(content)
-        self.message_list.append(content)
-        print('testing')
+
+        if self.counter2 == 0:
+
+            self.message_list.append(content)
+            self.counter2 += 1
+
 
 
 
@@ -223,13 +214,13 @@ class PageTwo(StartPage, tk.Frame):
 
 
 
-class Omegalul():
+class Omegalul(StartPage):
 
     HOST = "irc.chat.twitch.tv"
 
     PORT = 6667
 
-    NICK = "darksouls3twitch"
+    NICK = "{}".format(str(StartPage.login_list[0]))
 
     PASS = "oauth:fdgg9nwgxnaseqgnyxe8kjnefe0fmq"
 
@@ -297,11 +288,12 @@ y.get_function()
 x = PageOne(parent = None, controller= None)
 x.get_PageOne()
 
-b = Omegalul()
-
-b.Test()
+#b = Omegalul()
 
 
-while True:
-    b.Repeat()
-    time.sleep(3.0)
+#b.Test()
+
+
+#while True:
+    #b.Repeat()
+    #time.sleep(3.0)
