@@ -13,9 +13,9 @@ HOST = "irc.chat.twitch.tv"
 
 PORT = 6667
 
-NICK = "darksouls3twitch"
+NICK = "a"
 
-PASS = "oauth:rq0qaf3knzhbvte39ducmzuiljnjyp"
+PASS = ""
 
 CHAN = ""
 
@@ -63,9 +63,6 @@ class Omegalul():
 
     def Test(self):
 
-
-        #global a
-
         a = self.s.send("PRIVMSG {} :{}\r\n".format(CHAN, self.Text()).encode("utf-8"))
 
         return a
@@ -78,7 +75,7 @@ b = Omegalul()
 
 #---------------------------------------GUI-------------------------------------------#
 
-class TwitchBot(tk.Tk, Omegalul):
+class TwitchBot(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
@@ -163,7 +160,7 @@ class StartPage(tk.Frame):
         two =  self.entry_pass_ouath.get()
         three = self.entry_channel_interval.get()
         self.login_list[0] = str(one)
-        self.login_list[1] = str(two)
+        self.login_list[1] = str("oauth:" + re.sub("[^_]*:","",two))
         self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
         print(one, two, self.login_list[2])
 
@@ -184,6 +181,7 @@ class StartPage(tk.Frame):
 
         CHAN = str(StartPage.login_list[2])
 
+        
 
 class PageOne(tk.Frame):
 
