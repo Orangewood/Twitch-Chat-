@@ -32,8 +32,6 @@ user_message = ""
 
 class Omegalul():
 
-
-
     s = socket.socket()
 
     s.connect((HOST, PORT))
@@ -95,7 +93,7 @@ b = Omegalul()
 
 #---------------------------------------GUI-------------------------------------------#
 
-class TwitchBot(tk.Tk):
+class TwitchBot(tk.Tk, Omegalul):
 
     def __init__(self, *args, **kwargs):
 
@@ -159,6 +157,7 @@ class StartPage(tk.Frame):
         self.username.pack(fill='x', expand='yes')
         self.entry_username = tk.Entry(self, bd=3)
         self.entry_username.pack(fill='x', expand='yes')
+        self.entry_username.insert(0, "darksouls3twitch")
 
 
 
@@ -175,13 +174,14 @@ class StartPage(tk.Frame):
         self.pass_ouath.bind("<Button-1>", Callback)
         self.entry_pass_ouath = tk.Entry(self, bd=3)
         self.entry_pass_ouath.pack(fill='x', expand='yes')
+        self.entry_pass_ouath.insert(0, "oauth:rq0qaf3knzhbvte39ducmzuiljnjyp")
 
 
         self.channel_interval = tk.Label(self, text="Twitch URL Channel: ", anchor="w")
         self.channel_interval.pack(fill='x', expand='no')
         self.entry_channel_interval = tk.Entry(self, bd=3)
         self.entry_channel_interval.pack(fill='x', expand='yes')
-        self.entry_channel_interval.insert(0, "https://www.twitch.tv/example")
+        self.entry_channel_interval.insert(0, "https://www.twitch.tv/druezy")
 
 
 
@@ -203,17 +203,17 @@ class StartPage(tk.Frame):
         one = self.entry_username.get()
         two =  self.entry_pass_ouath.get()
         three = self.entry_channel_interval.get()
-        print(one, two, three)
+
 
         if self.counter == 0:
 
             for entry in (one, two, three):
-                self.login_list[0] = one
-                self.login_list[1] = two
-                self.login_list[2] = three
+                self.login_list[0] = str(one)
+                self.login_list[1] = str(two)
+                self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
             self.counter +=1
 
-
+        print(one, two, self.login_list[2])
 
 
     #Changes the global variables when invoked to what the user inputs, to then be sent to the IRC
@@ -230,9 +230,7 @@ class StartPage(tk.Frame):
 
         PASS = str(StartPage.login_list[1])
 
-        CHAN = str('#' + re.sub("[^_]*/", "", StartPage.login_list[2]))
-
-        print (NICK, PASS, CHAN)
+        CHAN = str(StartPage.login_list[2])
 
 
 
@@ -260,7 +258,7 @@ class PageOne(tk.Frame):
         self.back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
         self.back_button.pack(side='left', fill = 'x', expand = True)
 
-        self.button = tk.Button(self, text='Next', command=lambda: [print(CHAN), controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
+        self.button = tk.Button(self, text='Next', command=lambda: [print(NICK, PASS, CHAN), controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
         self.button.pack(side = 'right', fill = 'x', expand = True)
 
 
