@@ -30,7 +30,7 @@ user_message = ""
 
 
 
-class Omegalul(NICK):
+class Omegalul():
 
 
 
