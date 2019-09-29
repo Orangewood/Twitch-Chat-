@@ -6,32 +6,33 @@ import random
 import socket
 import threading
 import time
-
+import re
 
 
 HOST = "irc.chat.twitch.tv"
 
 PORT = 6667
 
-login_list = [0, 1, 2]
+NICK = ""
 
-message_list = [0]
+PASS = "oauth:rq0qaf3knzhbvte39ducmzuiljnjyp"
+
+CHAN = ""
+
+user_message = ""
+
+
+
+
 
 #--------------------------Omegalul-----------------------------
 
 
 
 
-class Omegalul():
+class Omegalul(NICK):
 
-    NICK = "darksouls3twitch"
 
-    PASS = "oauth:eiuru137zd7nozbisbbrvjw0c1cgh8"
-    # PASS = "oauth:{}".format(str(StartPage.login_list[1]))
-
-    CHAN = "#druezy"
-
-    #CHAN = "#{}".format(str(login_list[2]))
 
     s = socket.socket()
 
@@ -43,16 +44,13 @@ class Omegalul():
 
     s.send("JOIN {}\r\n".format(CHAN).encode("utf-8"))
 
-
     def __init__(self):
         pass
 
     def Text(self):
 
 
-
-
-        x = "Test message 1234"
+        x = user_message
 
         list_x = x.split()
 
@@ -74,11 +72,12 @@ class Omegalul():
 
 
     def Test(self):
-        global a
 
 
+        #global a
 
-        a = self.s.send("PRIVMSG {} :{}\r\n".format(self.CHAN, self.Text()).encode("utf-8"))
+        a = self.s.send("PRIVMSG {} :{}\r\n".format(CHAN, self.Text()).encode("utf-8"))
+
         return a
 
     def Repeat(self):
@@ -89,9 +88,6 @@ class Omegalul():
 
 b = Omegalul()
 
-#while True:
-    #b.Repeat()
-    #time.sleep(3.0)
 
 
 
@@ -112,7 +108,7 @@ class TwitchBot(tk.Tk):
         render = ImageTk.PhotoImage(load)
         img = tk.Label(self, image=render)
         img = tk.Button(self, image=render, text="When finished, click me to begin!", compound="top", bd=0,
-                        cursor="hand2", command = lambda: [print(login_list, message_list), b.Repeat()])
+                        cursor="hand2", command = lambda: b.Test())
         img.image = render
         img.pack(side="top", fill='both')
 
@@ -148,6 +144,7 @@ class TwitchBot(tk.Tk):
 
 class StartPage(tk.Frame):
 
+    login_list = [0, 1, 2]
 
 
 
@@ -189,7 +186,10 @@ class StartPage(tk.Frame):
 
 
 
-        self.button = tk.Button(self, text ='Next', command = lambda: [controller.show_frame(PageOne), self.get_function()], cursor="hand2")
+        self.button = tk.Button(self, text ='Next', command = lambda: [controller.show_frame(PageOne),
+                                                                       self.get_function(),
+                                                                       StartPage.global_function(self)],
+                                cursor="hand2")
         self.button.pack(side = 'bottom', fill = 'x', expand = True)
 
 
@@ -208,13 +208,31 @@ class StartPage(tk.Frame):
         if self.counter == 0:
 
             for entry in (one, two, three):
-                login_list[0] = one
-                login_list[1] = two
-                login_list[2] = three
+                self.login_list[0] = one
+                self.login_list[1] = two
+                self.login_list[2] = three
             self.counter +=1
-        #print(self.counter)
 
 
+
+
+    #Changes the global variables when invoked to what the user inputs, to then be sent to the IRC
+
+    def global_function(self):
+
+        global NICK
+
+        global PASS
+
+        global CHAN
+
+        NICK = str(StartPage.login_list[0])
+
+        PASS = str(StartPage.login_list[1])
+
+        CHAN = str('#' + re.sub("[^_]*/", "", StartPage.login_list[2]))
+
+        print (NICK, PASS, CHAN)
 
 
 
@@ -242,20 +260,21 @@ class PageOne(tk.Frame):
         self.back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
         self.back_button.pack(side='left', fill = 'x', expand = True)
 
-        self.button = tk.Button(self, text='Next', command=lambda: [controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
+        self.button = tk.Button(self, text='Next', command=lambda: [print(CHAN), controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
         self.button.pack(side = 'right', fill = 'x', expand = True)
 
 
 
     def get_PageOne(self):
 
+        global user_message
         content = self.message_area.get('1.0', tk.END)
+        message =  re.sub("[$_]*/n", "", content)
 
         if self.counter2 == 0:
 
-            message_list[0] = (content)
+            user_message = (message)
             self.counter2 += 1
-
 
 
 
@@ -285,7 +304,7 @@ class PageTwo(StartPage, tk.Frame):
         self.no_box.pack(fill = 'y')
 
 
-        self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
+        self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne) , cursor="hand2")
         self.button.pack(side = 'bottom' , fill='x', expand=True)
 
     def get_PageTwo(self):
@@ -309,6 +328,7 @@ app = TwitchBot()
 app.geometry('400x560')
 app.resizable(height = False, width = False)
 app.mainloop()
+
 
 
 
