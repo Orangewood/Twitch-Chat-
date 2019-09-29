@@ -13,7 +13,7 @@ HOST = "irc.chat.twitch.tv"
 
 PORT = 6667
 
-NICK = ""
+NICK = "darksouls3twitch"
 
 PASS = "oauth:rq0qaf3knzhbvte39ducmzuiljnjyp"
 
@@ -21,13 +21,7 @@ CHAN = ""
 
 user_message = ""
 
-
-
-
-
 #--------------------------Omegalul-----------------------------
-
-
 
 
 class Omegalul():
@@ -67,8 +61,6 @@ class Omegalul():
 
         return x
 
-
-
     def Test(self):
 
 
@@ -81,14 +73,7 @@ class Omegalul():
     def Repeat(self):
         threading.Timer(3.0, b.Test, args=()).start()
 
-
-
-
 b = Omegalul()
-
-
-
-
 
 
 #---------------------------------------GUI-------------------------------------------#
@@ -99,9 +84,6 @@ class TwitchBot(tk.Tk, Omegalul):
 
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
-
-
-
         load = Image.open("logo.png")
         render = ImageTk.PhotoImage(load)
         img = tk.Label(self, image=render)
@@ -126,8 +108,6 @@ class TwitchBot(tk.Tk, Omegalul):
 
             frame.grid(row = 0, column = 0, sticky ='nsew')
 
-
-
         self.show_frame(StartPage)
 
 
@@ -135,9 +115,6 @@ class TwitchBot(tk.Tk, Omegalul):
 
         frame = self.frames[cont]
         frame.tkraise()
-
-
-
 
 
 class StartPage(tk.Frame):
@@ -148,22 +125,13 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
 
-        self.counter = 0
-
         tk.Frame.__init__(self, parent)
         self.controller = controller
-
         self.username = tk.Label(self, text="Twitch username: ", anchor="w")
         self.username.pack(fill='x', expand='yes')
         self.entry_username = tk.Entry(self, bd=3)
         self.entry_username.pack(fill='x', expand='yes')
         self.entry_username.insert(0, "darksouls3twitch")
-
-
-
-
-
-
 
 
         def Callback(event):
@@ -182,10 +150,6 @@ class StartPage(tk.Frame):
         self.entry_channel_interval = tk.Entry(self, bd=3)
         self.entry_channel_interval.pack(fill='x', expand='yes')
         self.entry_channel_interval.insert(0, "https://www.twitch.tv/druezy")
-
-
-
-
         self.button = tk.Button(self, text ='Next', command = lambda: [controller.show_frame(PageOne),
                                                                        self.get_function(),
                                                                        StartPage.global_function(self)],
@@ -193,26 +157,14 @@ class StartPage(tk.Frame):
         self.button.pack(side = 'bottom', fill = 'x', expand = True)
 
 
-
-
-
     def get_function(self):
-
-
 
         one = self.entry_username.get()
         two =  self.entry_pass_ouath.get()
         three = self.entry_channel_interval.get()
-
-
-        if self.counter == 0:
-
-            for entry in (one, two, three):
-                self.login_list[0] = str(one)
-                self.login_list[1] = str(two)
-                self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
-            self.counter +=1
-
+        self.login_list[0] = str(one)
+        self.login_list[1] = str(two)
+        self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
         print(one, two, self.login_list[2])
 
 
@@ -233,17 +185,10 @@ class StartPage(tk.Frame):
         CHAN = str(StartPage.login_list[2])
 
 
-
-
-
 class PageOne(tk.Frame):
-
-
-
 
     def __init__(self, parent, controller):
 
-        self.counter2 = 0
 
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -268,12 +213,7 @@ class PageOne(tk.Frame):
         global user_message
         content = self.message_area.get('1.0', tk.END)
         message =  re.sub("[$_]*/n", "", content)
-
-        if self.counter2 == 0:
-
-            user_message = (message)
-            self.counter2 += 1
-
+        user_message = (message)
 
 
 class PageTwo(StartPage, tk.Frame):
@@ -312,12 +252,6 @@ class PageTwo(StartPage, tk.Frame):
 
         if self.yes_box is True:
             pass
-
-
-
-
-
-
 
 
 
