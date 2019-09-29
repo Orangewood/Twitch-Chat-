@@ -15,7 +15,7 @@ PORT = 6667
 
 NICK = "a"
 
-PASS = ""
+PASS = "oauth:rq0qaf3knzhbvte39ducmzuiljnjyp"
 
 CHAN = ""
 
@@ -116,11 +116,15 @@ class TwitchBot(tk.Tk):
 
 class StartPage(tk.Frame):
 
-    login_list = [0, 1, 2]
+    #login_list = [0, 1, 2]
 
 
 
     def __init__(self, parent, controller):
+
+        self.NICK = None
+        self.PASS = None
+        self.CHAN = None
 
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -148,22 +152,36 @@ class StartPage(tk.Frame):
         self.entry_channel_interval.pack(fill='x', expand='yes')
         self.entry_channel_interval.insert(0, "https://www.twitch.tv/druezy")
         self.button = tk.Button(self, text ='Next', command = lambda: [controller.show_frame(PageOne),
-                                                                       self.get_function(),
+                                                                       self.updateAll(),
                                                                        StartPage.global_function(self)],
                                 cursor="hand2")
         self.button.pack(side = 'bottom', fill = 'x', expand = True)
 
 
-    def get_function(self):
+    #def get_function(self):
 
-        one = self.entry_username.get()
-        two =  self.entry_pass_ouath.get()
-        three = self.entry_channel_interval.get()
-        self.login_list[0] = str(one)
-        self.login_list[1] = str("oauth:" + re.sub("[^_]*:","",two))
-        self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
-        print(one, two, self.login_list[2])
+        #one = self.entry_username.get()
+        #two =  self.entry_pass_ouath.get()
+        #three = self.entry_channel_interval.get()
+        #self.login_list[0] = str(one)
+        #self.login_list[1] = str("oauth:" + re.sub("[^_]*:","",two))
+        #self.login_list[2] = str('#' + re.sub("[^_]*/", "",three))
+        #print(one, two, self.login_list[2])
 
+    def updateNick(self, text):
+        self.NICK = str(text)
+
+    def updatePass(self, text):
+        self.PASS = str("oauth:" + re.sub("[^_]*:", "", text))
+
+    def updateChan(self, text):
+        self.CHAN = str('#' + re.sub("[^_]*/", "", text))
+
+    def updateAll(self):
+        self.updateNick(self.entry_username.get())
+        self.updatePass(self.entry_pass_ouath.get())
+        self.updateChan(self.entry_channel_interval.get())
+        print(self.CHAN, self.NICK, self.PASS)
 
     #Changes the global variables when invoked to what the user inputs, to then be sent to the IRC
 
@@ -181,7 +199,7 @@ class StartPage(tk.Frame):
 
         CHAN = str(StartPage.login_list[2])
 
-        
+
 
 class PageOne(tk.Frame):
 
@@ -201,7 +219,7 @@ class PageOne(tk.Frame):
         self.back_button = tk.Button(self, text = 'Back', command = lambda: controller.show_frame(StartPage), cursor="hand2")
         self.back_button.pack(side='left', fill = 'x', expand = True)
 
-        self.button = tk.Button(self, text='Next', command=lambda: [print(NICK, PASS, CHAN), controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
+        self.button = tk.Button(self, text='Next', command=lambda: [print(repr(CHAN)), controller.show_frame(PageTwo), self.get_PageOne()], cursor="hand2")
         self.button.pack(side = 'right', fill = 'x', expand = True)
 
 
