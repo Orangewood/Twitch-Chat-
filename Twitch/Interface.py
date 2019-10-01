@@ -137,7 +137,7 @@ class StartPage(tk.Frame):
         self.channel_interval = tk.Label(self, text="Twitch URL Channel: ", anchor="w")
         self.channel_interval.pack(fill='x', expand='no')
         self.entry_channel_interval = tk.Entry(self, bd=3)
-        self.entry_channel_interval.pack(fill='x', expand='yes')
+        self.entry_channel_interval.pack(fill='x', expand='yes', pady = 10)
         self.entry_channel_interval.insert(0, "https://www.twitch.tv/druezy")
         self.button = tk.Button(self, text='Next', command=lambda: [controller.show_frame(PageOne),
                                                                     self.update_all()],
@@ -213,10 +213,10 @@ class PageTwo(StartPage, tk.Frame):
         self.yes_box = tk.Checkbutton(self, text='Yes')
         self.yes_box.pack(fill='y', pady=5)
         self.no_box = tk.Checkbutton(self, text="No")
-        self.no_box.pack(fill='y')
+        self.no_box.pack(fill='y', pady = 10)
 
         self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
-        self.button.pack(side='bottom', fill='x', expand=True)
+        self.button.pack(side='bottom', fill='both', expand=True)
 
     def get_page_two(self):
         interval_value = self.interval_menu.get()
