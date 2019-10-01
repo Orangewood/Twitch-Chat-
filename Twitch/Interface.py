@@ -230,3 +230,7 @@ app = TwitchBot()
 app.geometry('400x560')
 app.resizable(height=False, width=False)
 app.mainloop()
+
+# while True:
+#     b.Repeat()
+#     time.sleep(3.0)
