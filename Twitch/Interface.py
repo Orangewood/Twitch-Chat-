@@ -28,6 +28,8 @@ class Omegalul:
 
     interval_value = ""
 
+    check_box =""
+
     def __init__(self):
         pass
 
@@ -52,25 +54,23 @@ class Omegalul:
 
         x = self.user_message
 
-        def random_text(self):
-
+        if self.check_box == 1:
 
             list_x = x.split()
 
-            y = [" KappaPride", " LUL", " ResidentSleeper", " 4Head", " cmonBruh", " EleGiggle", " Jebaited", " Kreygasm",
+            y = [" KappaPride", " LUL", " ResidentSleeper", " 4Head", " cmonBruh", " EleGiggle", " Jebaited",
+                 " Kreygasm",
                  " NotLikeThis", " PJSalt", " PogChamp", " BigBrother"]
             msg = [i + random.choice(y) for i in list_x]
+
             return " ".join(msg)
-            pass
 
-        #if check box = True:
-            #random_text()
-        #else:
-            #return x
+        else:
+            return x
 
-        return x
 
-    def repeat(self)
+
+    def repeat(self):
         threading.Timer(b.startup(), None).start()
 
     def okay(self):
@@ -211,6 +211,8 @@ class PageTwo(StartPage, tk.Frame):
 
     def __init__(self, parent, controller):
         self.interval_value = None
+        self.box = tkinter.IntVar()
+
 
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -226,7 +228,7 @@ class PageTwo(StartPage, tk.Frame):
 
         self.emote = tk.Label(self, text='Enable random emotes?: ', anchor='w')
         self.emote.pack(side = 'top', pady=10)
-        self.yes_box = tk.Checkbutton(self, text='Yes')
+        self.yes_box = tk.Checkbutton(self, text='Yes', variable = self.box)
         self.yes_box.pack(fill='y', pady = 10)
         # self.no_box = tk.Checkbutton(self, text="No")
         # self.no_box.pack(fill='y', pady = 10)
@@ -234,7 +236,7 @@ class PageTwo(StartPage, tk.Frame):
         self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
         self.button.pack(side='left', fill='x', expand=True)
 
-        self.button = tk.Button(self, text='Finish', command=lambda: [self.get_time(), b.okay()], cursor="hand2")
+        self.button = tk.Button(self, text='Finish', command=lambda: [self.get_time(), self.get_box(), b.okay()], cursor="hand2")
         self.button.pack(side='right', fill='x', expand=True)
 
     def get_time(self):
@@ -247,6 +249,12 @@ class PageTwo(StartPage, tk.Frame):
         #     tkinter.messagebox.showinfo("Error", "Please enter a number value greater than 3")
         finally:
             Omegalul.interval_value = self.interval_value
+
+    def get_box(self):
+        self.box.get()
+        Omegalul.check_box = (self.box.get())
+
+
 
 app = TwitchBot()
 app.geometry('400x560')
