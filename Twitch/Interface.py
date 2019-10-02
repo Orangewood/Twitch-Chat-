@@ -7,7 +7,7 @@ import socket
 import threading
 import time
 import re
-
+import tkinter.messagebox
 
 # --------------------------Omegalul-----------------------------
 
@@ -25,6 +25,8 @@ class Omegalul:
     CHAN = ""
 
     user_message = ""
+
+    interval_value = ""
 
     def __init__(self):
         pass
@@ -47,27 +49,36 @@ class Omegalul:
         return a
 
     def text(self):
+
         x = self.user_message
 
-        list_x = x.split()
+        def random_text(self):
 
-        # List of twitch emotes for testing:
 
-        y = [" KappaPride", " LUL", " ResidentSleeper", " 4Head", " cmonBruh", " EleGiggle", " Jebaited", " Kreygasm",
-             " NotLikeThis", " PJSalt", " PogChamp", " BigBrother"]
+            list_x = x.split()
 
-        msg = [i + random.choice(y) for i in list_x]
+            y = [" KappaPride", " LUL", " ResidentSleeper", " 4Head", " cmonBruh", " EleGiggle", " Jebaited", " Kreygasm",
+                 " NotLikeThis", " PJSalt", " PogChamp", " BigBrother"]
+            msg = [i + random.choice(y) for i in list_x]
+            return " ".join(msg)
+            pass
 
-        # -------------------------------Make selection of emotes or no
-        # emotes------------------------------------------------- return " ".join(msg)
+        #if check box = True:
+            #random_text()
+        #else:
+            #return x
 
         return x
 
-    def test(self):
-        pass
+    def repeat(self)
+        threading.Timer(b.startup(), None).start()
 
-    def repeat(self):
-        threading.Timer(3.0, b.test, args=()).start()
+    def okay(self):
+
+        while True:
+            b.repeat()
+            time.sleep(self.interval_value)
+
 
 
 b = Omegalul()
@@ -108,6 +119,8 @@ class TwitchBot(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
+    # def update_text(self):
+    #     img["text"] = 'test'
 
 class StartPage(tk.Frame):
 
@@ -137,7 +150,7 @@ class StartPage(tk.Frame):
         self.channel_interval = tk.Label(self, text="Twitch URL Channel: ", anchor="w")
         self.channel_interval.pack(fill='x', expand='no')
         self.entry_channel_interval = tk.Entry(self, bd=3)
-        self.entry_channel_interval.pack(fill='x', expand='yes', pady = 10)
+        self.entry_channel_interval.pack(fill='x', expand='yes')
         self.entry_channel_interval.insert(0, "https://www.twitch.tv/druezy")
         self.button = tk.Button(self, text='Next', command=lambda: [controller.show_frame(PageOne),
                                                                     self.update_all()],
@@ -192,15 +205,18 @@ class PageOne(tk.Frame):
         Omegalul.user_message = user_message
 
 
+
 class PageTwo(StartPage, tk.Frame):
-    interval_list = []
+
 
     def __init__(self, parent, controller):
+        self.interval_value = None
+
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
         self.interval = tk.Label(self, text='Alloted interval (seconds): ', anchor='w')
-        self.interval.pack(side='top')
+        self.interval.pack(side='top', pady = 10)
         self.interval_menu = ttk.Combobox(self, values=[
             "3",
             "10",
@@ -209,28 +225,32 @@ class PageTwo(StartPage, tk.Frame):
         self.interval_menu.pack(side='top')
 
         self.emote = tk.Label(self, text='Enable random emotes?: ', anchor='w')
-        self.emote.pack(side='top', pady=10)
+        self.emote.pack(side = 'top', pady=10)
         self.yes_box = tk.Checkbutton(self, text='Yes')
-        self.yes_box.pack(fill='y', pady=5)
-        self.no_box = tk.Checkbutton(self, text="No")
-        self.no_box.pack(fill='y', pady = 10)
+        self.yes_box.pack(fill='y', pady = 10)
+        # self.no_box = tk.Checkbutton(self, text="No")
+        # self.no_box.pack(fill='y', pady = 10)
 
         self.button = tk.Button(self, text='Back', command=lambda: controller.show_frame(PageOne), cursor="hand2")
-        self.button.pack(side='bottom', fill='both', expand=True)
+        self.button.pack(side='left', fill='x', expand=True)
 
-    def get_page_two(self):
-        interval_value = self.interval_menu.get()
-        self.interval_list.append(interval_value)
+        self.button = tk.Button(self, text='Finish', command=lambda: [self.get_time(), b.okay()], cursor="hand2")
+        self.button.pack(side='right', fill='x', expand=True)
 
-        if self.yes_box is True:
-            pass
+    def get_time(self):
 
+        try:
+            self.interval_value = float(self.interval_menu.get())
+        except ValueError:
+            tkinter.messagebox.showinfo("Error", "Please enter a number value greater than 3")
+        # except self.interval_value < 3.0:
+        #     tkinter.messagebox.showinfo("Error", "Please enter a number value greater than 3")
+        finally:
+            Omegalul.interval_value = self.interval_value
 
 app = TwitchBot()
 app.geometry('400x560')
 app.resizable(height=False, width=False)
 app.mainloop()
 
-# while True:
-#     b.Repeat()
-#     time.sleep(3.0)
+
