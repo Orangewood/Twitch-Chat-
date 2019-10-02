@@ -137,7 +137,7 @@ class StartPage(tk.Frame):
         self.entry_username.pack(fill='x', expand='yes')
         self.entry_username.insert(0, "darksouls3twitch")
 
-        def callback():
+        def callback(event):
             webbrowser.open_new("https://twitchapps.com/tmi/")
 
         self.pass_ouath = tk.Label(self, text="Generate authorization password: ", fg="blue", cursor="hand2",
@@ -260,5 +260,3 @@ app = TwitchBot()
 app.geometry('400x560')
 app.resizable(height=False, width=False)
 app.mainloop()
-
-
